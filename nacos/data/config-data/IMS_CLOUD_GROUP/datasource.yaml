@@ -1,0 +1,73 @@
+spring:
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    # password: "redis@3"
+    # password: ""
+    timeout: 100s
+  datasource:
+    druid:
+      #MySQL
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/ims_yyxt?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: wtm12138
+#      #Oracle
+#      driver-class-name: oracle.jdbc.OracleDriver
+#      url: jdbc:oracle:thin:@localhost:1521:xe
+#      username: renren_security
+#      password: 123456
+#      #SQLServer
+#      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+#      url: jdbc:sqlserver://localhost:1433;DatabaseName=security_enterprise
+#      username: sa
+#      password: 123456
+#      #postgresql
+#      driver-class-name: org.postgresql.Driver
+#      url: jdbc:postgresql://localhost:5432/security_enterprise
+#      username: postgres
+#      password: 123456
+      initial-size: 2
+      max-active: 5
+      min-idle: 2
+      max-wait: 6000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 5
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      #Oracle需要打开注释
+      #validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: false
+        wall:
+          config:
+            multi-statement-allow: true
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: io.ims.entity
+  global-config:
+    #数据库相关配置
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: ID_WORKER
+    banner: false
+  #原生配置
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'  
+          
+feign:
+  auth:
+    url: 'http://localhost:8080/auth/oauth/token?grant_type=client_credentials'
+    basic: 'ZGhwcm9jZXNzOkFpbVYyMDIzVVo='        

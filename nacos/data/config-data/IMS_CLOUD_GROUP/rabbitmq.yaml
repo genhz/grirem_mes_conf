@@ -1,0 +1,14 @@
+spring:
+  rabbitmq:
+    host: 10.40.10.253
+    port: 5672
+    username: admin
+    password: admin
+    virtual-host: my_vhost
+    publisher-confirms: true  #消息确认
+    publisher-returns: true  #消息返回
+    listener:
+      simple:
+        acknowledge-mode: manual
+        retry:
+          enabled: true #是否支持重试           

@@ -1,0 +1,553 @@
+[
+  {
+    "remark": "认证服务",
+    "id": "ims-auth-server",
+    "uri": "lb://ims-auth-server",
+    "order": "1",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/auth/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+   {
+    "remark": "报表服务",
+    "id": "ims-ur-server",
+    "uri": "lb://ims-ur-server",
+    "order": "1",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/sys/ureport/**",
+          "_genkey_1": "/sys/view/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+  {
+    "remark": "Admin服务",
+    "id": "ims-admin-server",
+    "uri": "lb://ims-admin-server",
+    "order": "2",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/sys/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+  {
+    "remark": "监控服务",
+    "id": "ims-monitor-server",
+    "uri": "lb://ims-monitor-server",
+    "order": "3",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/monitor/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+  {
+    "remark": "OSS服务",
+    "id": "ims-oss-server",
+    "uri": "lb://ims-oss-server",
+    "order": "4",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/oss/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+  {
+    "remark": "消息服务",
+    "id": "ims-message-server",
+    "uri": "lb://ims-message-server",
+    "order": "5",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/message/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+  {
+    "remark": "工作流服务",
+    "id": "ims-activiti-server",
+    "uri": "lb://ims-activiti-server",
+    "order": "6",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/activiti/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+  {
+    "remark": "定时任务服务",
+    "id": "ims-job-server",
+    "uri": "lb://ims-job-server",
+    "order": "7",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/job/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+  {
+    "remark": "APP流服务",
+    "id": "ims-api-server",
+    "uri": "lb://ims-api-server",
+    "order": "8",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/api/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+  {
+    "remark": "代码生成服务",
+    "id": "ims-devtools-server",
+    "uri": "lb://ims-devtools-server",
+    "order": "9",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/devtools/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+  {
+    "remark": "主数据服务",
+    "id": "ims-md-server",
+    "uri": "lb://ims-md-server",
+    "order": "10",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/md/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+  {
+    "remark": "订单服务",
+    "id": "ims-om-server",
+    "uri": "lb://ims-om-server",
+    "order": "11",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/om/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+  {
+    "remark": "物料需求管理服务",
+    "id": "ims-mr-server",
+    "uri": "lb://ims-mr-server",
+    "order": "12",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/mr/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+  {
+    "remark": "生产计划服务",
+    "id": "ims-pp-server",
+    "uri": "lb://ims-pp-server",
+    "order": "14",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/pp/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+  {
+    "remark": "仓库管理服务",
+    "id": "ims-wm-server",
+    "uri": "lb://ims-wm-server",
+    "order": "15",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/wm/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+  {
+    "remark": "车间排产服务",
+    "id": "ims-ap-server",
+    "uri": "lb://ims-ap-server",
+    "order": "16",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/ap/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+  {
+    "remark": "erp服务",
+    "id": "ims-erp-server",
+    "uri": "lb://ims-erp-server",
+    "order": "17",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/erp/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+  {
+    "remark": "品质管理服务",
+    "id": "ims-qm-server",
+    "uri": "lb://ims-qm-server",
+    "order": "18",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/qm/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+  {
+    "remark": "生产执行服务",
+    "id": "ims-es-server",
+    "uri": "lb://ims-es-server",
+    "order": "19",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/es/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+  {
+    "remark": "采购管理服务",
+    "id": "ims-sc-server",
+    "uri": "lb://ims-sc-server",
+    "order": "20",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/sc/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+    {
+    "remark": "设备管理服务",
+    "id": "ims-em-server",
+    "uri": "lb://ims-em-server",
+    "order": "21",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/em/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+   {
+    "remark": "报价服务",
+    "id": "ims-quotn-server",
+    "uri": "lb://ims-quotn-server",
+    "order": "22",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/quotn/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+    {
+    "remark": "oa服务",
+    "id": "ims-oa-server",
+    "uri": "lb://ims-oa-server",
+    "order": "24",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/oa/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+   {
+    "remark": "test",
+    "id": "ims-test-server",
+    "uri": "lb://ims-rabbit-server",
+    "order": "23",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/rabbit/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  },
+  {
+    "remark": "帆软报表服务",
+    "id": "ims-fr-server",
+    "uri": "lb://ims-fr-server",
+    "order": "25",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "pattern": "/fr/**"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "name": "StripPrefix",
+        "args": {
+          "StripPrefix": 0
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,39 @@
+spring:
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss   
+  cloud:
+    inetutils:
+      # 忽略网卡，eth.*，正则表达式
+      ignored-interfaces: eth.*
+      # 选择符合前缀的IP作为服务注册IP
+      preferred-networks: 220.180.35.167
+    sentinel:
+      enabled: true
+      transport:
+        # sentinel dashboard 地址
+        dashboard: localhost:8180
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+feign:
+  sentinel:
+    enabled: true
+  client:
+    config:
+      default:
+        loggerLevel: FULL
+  httpclient:
+    enabled: true
+
+
+ribbon:
+  ReadTimeout: 300000
+  ConnectTimeout: 300000    
