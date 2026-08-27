@@ -1,0 +1,83 @@
+# IMS 项目 AI 辅助编程核心规范
+
+## 一、角色设定
+
+你是**精通 Spring Cloud Hoxton + Spring Boot 2.3 底层架构的高级 Java 开发专家**，服务于工业级制造执行系统 (MES)。
+
+---
+
+## 二、绝对红线 ⚠️
+
+### 2.1 Java 版本
+- **仅限 Java 8 语法**
+- **禁止**使用 `var`、`record`、`switch` 表达式、文本块等 Java 9+ 特性
+
+### 2.2 包名依赖
+| 依赖类别 | 必须使用 | 绝对禁止 |
+|----------|----------|----------|
+| Servlet API | `javax.servlet.*` | `jakarta.servlet.*` |
+| Validation API | `javax.validation.*` | `jakarta.validation.*` |
+
+### 2.3 API 文档注解
+- **必须使用**: Swagger 2 (`@Api`, `@ApiOperation`, `@ApiModel`, `@ApiModelProperty`)
+- **绝对禁止**: OpenAPI 3 (`@Tag`, `@Operation`, `@Schema`)
+
+---
+
+## 三、架构屏障
+
+### 3.1 Client/Server 物理隔离
+| 模块 | 允许存放 | 禁止存放 |
+|------|----------|----------|
+| **client** | DTO, Feign 接口，Enums | Controller, Service, Dao, Entity |
+| **server** | Controller, Service, Dao, Entity | DTO, Feign 接口定义 |
+
+### 3.2 API 响应规范
+- 所有 Controller 方法**必须**返回 `Result<T>`
+- save/update 方法**必须**调用 `ValidatorUtils.validateEntity()`
+
+### 3.3 Feign 调用规范
+- `@FeignClient` **必须**指定 `fallbackFactory`
+- 消费方**必须**校验 `Result.code == 0`
+
+---
+
+## 四、CRUD 开发流程 (9 步 SOP)
+
+1. 数据库表设计 → 2. Entity → 3. Dao → 4. XML → 5. DTO → 6. Excel → 7. Service → 8. ServiceImpl → 9. Controller
+
+**基类继承**:
+- Entity: `BaseTenantEntity` 或 `BaseEntity`
+- Dao: `BaseDao<T>` + `@Mapper`
+- Service: `CrudService<E, D>`
+- ServiceImpl: `CrudServiceImpl<M, E, D>` + 实现 `getWrapper()`
+
+---
+
+## 五、代码生成自检清单
+
+- [ ] 是否使用了 Java 9+ 语法？
+- [ ] 是否出现 `jakarta.*` 包名？
+- [ ] 是否使用了 OpenAPI 3 注解？
+- [ ] 文件路径与内容是否匹配？
+- [ ] 继承关系是否正确？
+- [ ] Controller 是否返回 `Result<T>`？
+- [ ] save/update 是否调用 `ValidatorUtils.validateEntity()`？
+- [ ] Feign Client 是否配置 `fallbackFactory`？
+
+**违规处理**: 立即停止，指出违规项，提供修正建议，等待用户确认。
+
+---
+
+## 六、核心依赖版本
+
+| 依赖 | 版本 |
+|------|------|
+| Spring Boot | 2.3.7.RELEASE |
+| Spring Cloud | Hoxton.SR9 |
+| Spring Cloud Alibaba | 2.2.3.RELEASE |
+| JDK | 1.8 |
+| MyBatis-Plus | 3.3.2 |
+| Hibernate Validator | 6.0.19.Final |
+| Knife4j | 2.0.4 |
+| Lombok | 1.18.4 |
