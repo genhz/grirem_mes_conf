@@ -186,21 +186,28 @@ ims-wm/
 
 ### 1. Feign 跨模块调用
 
-**接口定义 (Client 模块)**
+**核心原则：被调用方定义 Feign Client，调用方引入 client 依赖后直接注入使用。**
+
+| 场景 | Feign Client 写在哪 | FallbackFactory 写在哪 | 调用方怎么做 |
+|------|---------------------|------------------------|-------------|
+| WM 调用 QM | `ims-qm-client` 中定义 | `ims-qm-client` 中定义 | WM server 的 pom.xml 引入 `ims-qm-client`，注入 `@Autowired QmXxxFeignClient` |
+| QM 调用 WM | `ims-wm-client` 中定义 | `ims-wm-client` 中定义 | QM server 的 pom.xml 引入 `ims-wm-client`，注入 `@Autowired WmXxxFeignClient` |
+
+**接口定义 (被调用方的 Client 模块)**
 - 位置：`ims-xxx-client/src/main/java/io/ims/feign/`
 - 注解：`@FeignClient(name = "ims-xxx-server", contextId = "xxxFeignClient", fallbackFactory = XxxFeignFallbackFactory.class)`
 - 路径格式：`/模块/资源/操作`，如 `/wm/wmkc/getList`
 - 返回值统一使用 `Result<T>`
 
-**降级工厂**
+**降级工厂 (被调用方的 Client 模块)**
 - 位置：`ims-xxx-client/src/main/java/io/ims/feign/fallback/`
 - 实现 `FallbackFactory<T>` 接口，用 `@Component` 注册
 - 记录错误日志，返回友好错误提示
 
-**消费方调用**
+**消费方调用 (调用方的 Server 模块)**
+- 在调用方 server 模块的 `pom.xml` 中引入提供方 client 模块依赖
 - 使用 `@Autowired` 注入 Feign Client
 - 始终检查 `result.getCode() != 0` 判断调用是否成功
-- 在消费方 `pom.xml` 引入提供方 Client 模块依赖
 
 **启动类配置**
 ```java

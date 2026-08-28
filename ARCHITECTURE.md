@@ -1163,9 +1163,19 @@ public class WmClassController {
 
 ## 6. 跨模块 Feign Client 调用规范
 
-### 6.1 Feign 接口定义（Client 模块）
+### 6.1 核心原则
 
-**位置：** `ims-xxx-client/src/main/java/io/ims/feign/`
+**Feign Client 归属规则：被调用方定义 Feign Client，调用方引入 client 依赖后直接注入使用。**
+
+| 场景 | Feign Client 写在哪 | FallbackFactory 写在哪 | 调用方怎么做 |
+|------|---------------------|------------------------|-------------|
+| WM 调用 QM | `ims-qm-client` 中定义 | `ims-qm-client` 中定义 | WM server 的 pom.xml 引入 `ims-qm-client`，注入 `@Autowired QmXxxFeignClient` |
+| QM 调用 WM | `ims-wm-client` 中定义 | `ims-wm-client` 中定义 | QM server 的 pom.xml 引入 `ims-wm-client`，注入 `@Autowired WmXxxFeignClient` |
+| PP 调用 WM | `ims-wm-client` 中定义 | `ims-wm-client` 中定义 | PP server 的 pom.xml 引入 `ims-wm-client`，注入 `@Autowired WmXxxFeignClient` |
+
+### 6.2 Feign 接口定义（被调用方的 Client 模块）
+
+**位置：** `ims-xxx-client/src/main/java/io/ims/feign/`（xxx 为**被调用方**模块名）
 
 ```java
 package io.ims.feign;
@@ -1182,7 +1192,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 仓库模块 Feign 客户端
+ * 仓库模块 Feign 客户端 - 由 WM 模块定义，供其他模块调用
  */
 @FeignClient(name = "ims-wm-server", contextId = "wmFeignClient", 
              fallbackFactory = WmFeignFallbackFactory.class)
@@ -1231,10 +1241,11 @@ public interface WmFeignClient {
 - 接口方法使用 Spring MVC 注解（`@PostMapping`, `@GetMapping` 等）
 - 参数使用 `@RequestBody` 或 `@RequestParam` 明确标注
 - 返回值统一使用 `Result<T>` 包装
+- **Feign Client 由被调用方（服务提供方）定义在它的 client 模块中**
 
-### 6.2 Feign 降级工厂（Client 模块）
+### 6.3 Feign 降级工厂（被调用方的 Client 模块）
 
-**位置：** `ims-xxx-client/src/main/java/io/ims/feign/fallback/`
+**位置：** `ims-xxx-client/src/main/java/io/ims/feign/fallback/`（xxx 为**被调用方**模块名）
 
 ```java
 package io.ims.feign.fallback;
@@ -1302,9 +1313,11 @@ public class WmFeignFallbackFactory implements FallbackFactory<WmFeignClient> {
 - 使用 `@Component` 注册为 Spring Bean
 - 降级方法返回默认值或友好错误提示
 
-### 6.3 消费方调用示例（Server 模块）
+### 6.4 消费方调用示例（调用方的 Server 模块）
 
 **场景：** 在生产模块 (`ims-pp-server`) 中调用仓库模块的 Feign 接口
+
+**前提：** 在 `ims-pp-server/pom.xml` 中引入 `ims-wm-client` 依赖（见 6.5 节）
 
 ```java
 package io.ims.modules.pp.service.impl;
@@ -1386,9 +1399,9 @@ public class ProductionOrderServiceImpl implements ProductionOrderService {
 - 处理降级返回的错误信息
 - 抛出业务异常时包含详细错误信息
 
-### 6.4 依赖配置（消费方 Server）
+### 6.5 依赖配置（调用方 Server 模块）
 
-在消费方 Server 模块的 `pom.xml` 中添加依赖：
+在调用方 Server 模块的 `pom.xml` 中添加依赖（引入**被调用方**的 client 模块）：
 
 ```xml
 <dependencies>
@@ -1416,9 +1429,9 @@ public class ProductionOrderServiceImpl implements ProductionOrderService {
 </dependencies>
 ```
 
-### 6.5 启动类配置
+### 6.6 启动类配置
 
-确保启动类已启用 Feign：
+确保**调用方**启动类已启用 Feign：
 
 ```java
 @SpringBootApplication
@@ -1436,7 +1449,7 @@ public class PpApplication {
 - `basePackages` 指定扫描包路径
 - `defaultConfiguration` 指定默认配置类
 
-### 6.6 调用流程图
+### 6.7 调用流程图
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -1487,7 +1500,7 @@ public class PpApplication {
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### 6.7 最佳实践
+### 6.8 最佳实践
 
 1. **接口命名规范**
    - Feign 接口路径使用 `/模块/资源/操作` 格式
