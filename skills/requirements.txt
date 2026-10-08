@@ -1,7 +1,0 @@
-# Skills 依赖包列表
-
-# 基础依赖
-python-docx>=0.8.11     # Word 文档处理 (周报生成)
-
-# 可选依赖
-# pymysql>=1.0.0        # MySQL 数据库连接 (db_extractor.py 需要)

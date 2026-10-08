@@ -1,18 +1,20 @@
 spring:
   redis:
-    host: localhost
+    # host: 10.40.10.253
+    host: 127.0.0.1
     port: 6379
     database: 0
     # password: "redis@3"
-    # password: ""
     timeout: 100s
   datasource:
     druid:
       #MySQL
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/ims_yyxt?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+      # url: jdbc:mysql://localhost:3306/ai_ims_yyxt?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+      url: jdbc:mysql://10.40.10.253:3306/ai_ims_yyxt?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
       username: root
-      password: wtm12138
+      # password: wtm12138
+      password: yymes
 #      #Oracle
 #      driver-class-name: oracle.jdbc.OracleDriver
 #      url: jdbc:oracle:thin:@localhost:1521:xe

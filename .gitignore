@@ -3,6 +3,7 @@
 .DS_Store
 
 server_aut
+/周报
 
 *.log
 logs/
